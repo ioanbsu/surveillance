@@ -1,0 +1,83 @@
+---
+- name: Configure survelliance rpi box 
+  hosts: all
+  connection: local
+  become: yes
+
+  vars: 
+    video_user: "INSERT_UNIX_USER_NAME_HERE"
+    influx_db_url: "INSERT_INFLUX_DB_URI_HERE"
+    influx_db_login: "INSERT_INFLUX_DB_LOGIN_HERE"
+    influx_db_pwd : "INSERT_INFLUX_DB_PWD_HERE"
+    influx_db_host_name_to_report: "INSERT_INFLUX_DB_HOSTNAME_TO_REPORT_HERE"
+    video_record_home_dir: "INSERT_DIRECTORY_WHERE_VIDEOS_WILL_BE_HERE"
+
+  
+  tasks:
+# installing required packages
+  - name: ensure openssh-server is installed
+    apt: name=openssh-server state=latest
+  - service:
+      name: ssh
+      state: started
+
+  - name:
+    apt: name=apache2 state=latest
+  - service:
+      name: apache2
+      state: started
+
+  - name: Configuring apahce to expose folder with videos
+    template: src=000-default.conf dest=/etc/apache2/sites-available   
+    notify: 
+      - restart apache
+
+  - name: Configuring apache permissions on folder exposed
+    template: src=apache2.conf dest=/etc/apache2/apache2.conf
+    notify:
+      - restart apache
+ 
+  - name: Downloading telegraf
+    get_url:
+      url="https://dl.influxdata.com/telegraf/releases/telegraf_1.3.4-1_armhf.deb"
+      dest="/tmp/telegraf.deb"
+
+  - name: Installing telegraf
+    apt: deb="/tmp/telegraf.deb"
+
+  - name: Configure Telegraf
+    template: src=telegraf.conf dest=/etc/telegraf/telegraf.conf
+    notify:
+      - restart telegraf 
+  
+# configuring files and folders
+  - name: Creating video folder if necessary
+    file: path={{video_record_home_dir}} state=directory owner={{video_user}} group={{video_user}} mode=0755
+
+  - name: Creating video folder if necessary
+    file: path={{video_record_home_dir}}/video state=directory owner={{video_user}} group={{video_user}} mode=0755
+  
+  - name: Creating video record script
+    template: src=record.sh dest={{video_record_home_dir}} mode="u+x" owner={{video_user}} group={{video_user}}
+
+  - name: Adding record job to crontab
+    cron: name="record videos" minute="*/15" user={{video_user}} job="{{video_record_home_dir}}/record.sh"
+    
+  - name: Creating video cleanup script
+    template: src=cleanup.sh dest={{video_record_home_dir}} mode="u+x" owner={{video_user}} group={{video_user}}
+
+  - name: Adding record job to crontab
+    cron: name="cleanup disk space" minute="*/1" user={{video_user}} job="{{video_record_home_dir}}/cleanup.sh"
+
+# configuring ports 22 and 80 be opened
+  - name: Open port 80
+    ufw: rule="allow" port="80" proto="tcp" 
+
+  - name: Open port 22
+    ufw: rule="allow" port="22" proto="tcp"
+ 
+  handlers:
+    - name: restart telegraf
+      service: name=telegraf state=restarted
+    - name: restart apache
+      service: name=apache2 state=restarted
