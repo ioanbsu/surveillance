@@ -5,4 +5,6 @@ The apache server will be auto started and all recorded videos will be available
 To get ip address of a box do `ifconfig`.
 Steps to get started
 1. Install ansible: `sudo apt-get install ansible`
-2. Run ansible playbook `ansible-playbook --ask-become-pass ./surveillance.yaml`
+2. Configure what cameras to record data from
+3. Configure `surveillance.yaml` 
+4. Run ansible playbook `ansible-playbook -i "localhost," -c local --ask-become-pass ./surveillance.yaml`
