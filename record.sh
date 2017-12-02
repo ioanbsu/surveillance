@@ -20,5 +20,9 @@ BASEpath='{{video_record_home_dir}}'
 RECpath=$BASEpath'/video'
 
 # Save the streams using ffmpeg at 30 fps, stopping the capture after 900 seconds (15 minutes). Add more lines if you have more than 2 cameras
-ffmpeg -i rtsp://192.168.1.21:554/unicast -r 30 -b:v 1k -c:v h264_omx -t 901 $RECpath/family_room_$name.mp4 </dev/null >/dev/null 2>/tmp/familyRoomCam.log &
-ffmpeg -i rtsp://192.168.1.6:554/unicast -r 30 -b:v 1k -c:v h264_omx  -t 901 $RECpath/shed_$name.mp4 </dev/null >/dev/null 2>/tmp/shedCam.log &
+ffmpeg -i rtsp://192.168.1.21:554/unicast -r 30 -b:v 1k -vcodec copy  -t 900 $RECpath/family_room_$name.mp4 </dev/null >/dev/null 2>/tmp/familyRoomCam.log &
+ffmpeg -i rtsp://192.168.1.6:554/unicast -r 30 -b:v 1k -vcodec copy  -t 900 $RECpath/shed_$name.mp4 </dev/null >/dev/null 2>/tmp/shedCam.log &
+
+#below hardware accelerated codecs settings if needed.
+#ffmpeg -c:v h264_mmal -i rtsp://192.168.1.21:554/unicast -r 30 -b:v 1k -c:v h264_omx -t 901 $RECpath/family_room_$name.mp4 </dev/null >/dev/null 2>/tmp/familyRoomCam.log &
+#ffmpeg -c:v h264_mmal -i rtsp://192.168.1.6:554/unicast -r 30 -b:v 1k -c:v h264_omx  -t 901 $RECpath/shed_$name.mp4 </dev/null >/dev/null 2>/tmp/shedCam.log &

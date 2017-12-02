@@ -8,3 +8,6 @@ Steps to get started
 2. Configure what cameras to record data from
 3. Configure `surveillance.yaml` 
 4. Run ansible playbook `ansible-playbook -i "localhost," -c local --ask-become-pass ./surveillance.yaml`
+
+
+In case there is a need to real-time convert rtsp->mjpeg, see preconfigured ffserver.conf as sample configuration on how to do it. It configured to convert 6 different streams. Update configuration to satisfy your needs. 
