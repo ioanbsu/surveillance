@@ -76,10 +76,10 @@
     cron: name="cleanup disk space" minute="*/1" user={{video_user}} job="{{video_record_home_dir}}/cleanup.sh"
 
   - name: Adding restarf ffserver job to crontab
-    cron: name="restart ffserver app" hour="*/1" user={{video_user}} job="pkill ffserver"
+    cron: name="restart ffserver app" hour="*/1" minute="*/3" user={{video_user}} job="pkill ffserver"
 
   - name: Adding ffserver healthcheck job to crontab
-    cron: name="ffserver health check" hour="*/1" user={{video_user}} job="{{video_record_home_dir}}/check_ffserver_running.sh"
+    cron: name="ffserver health check" minute="*/2" user={{video_user}} job="{{video_record_home_dir}}/check_ffserver_running.sh"
 
 # configuring ports 22 and 80 be opened
   - name: Open port 80
