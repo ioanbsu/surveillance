@@ -75,7 +75,7 @@
   - name: Adding disk cleanup job to crontab
     cron: name="cleanup disk space" minute="*/1" user={{video_user}} job="{{video_record_home_dir}}/cleanup.sh"
 
-  - name: Adding restarf ffserver job to crontab
+  - name: Adding restart ffserver job to crontab
     cron: name="restart ffserver app" hour="*/1" minute="*/3" user={{video_user}} job="pkill ffserver"
 
   - name: Adding ffserver healthcheck job to crontab
