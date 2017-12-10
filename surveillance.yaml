@@ -72,11 +72,14 @@
   - name: Creating video cleanup script
     template: src=cleanup.sh dest={{video_record_home_dir}} mode="u+x" owner={{video_user}} group={{video_user}}
 
-  - name: Adding record job to crontab
+  - name: Adding disk cleanup job to crontab
     cron: name="cleanup disk space" minute="*/1" user={{video_user}} job="{{video_record_home_dir}}/cleanup.sh"
 
-  - name: Adding record job to crontab
+  - name: Adding restarf ffserver job to crontab
     cron: name="restart ffserver app" hour="*/1" user={{video_user}} job="pkill ffserver"
+
+  - name: Adding ffserver healthcheck job to crontab
+    cron: name="ffserver health check" hour="*/1" user={{video_user}} job="{{video_record_home_dir}}/check_ffserver_running.sh"
 
 # configuring ports 22 and 80 be opened
   - name: Open port 80
