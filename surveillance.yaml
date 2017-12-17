@@ -64,7 +64,7 @@
     template: src=check_ffserver_running.sh dest={{video_record_home_dir}} mode="u+x" owner={{video_user}} group={{video_user}}
 
   - name: camera restarter
-    template: src=reboot_cams.ssh dest={{video_record_home_dir}} mode="u+x" owner={{video_user}} group={{video_user}}
+    template: src=reboot_cams.sh dest={{video_record_home_dir}} mode="u+x" owner={{video_user}} group={{video_user}}
 
   - name: Ensuring ffserver config is correct
     template: src=ffserver.conf dest=/etc mode="u+r" owner=root group=root
