@@ -4,16 +4,12 @@
   connection: local
   become: yes
 
-  vars: 
-    video_user: "INSERT_UNIX_USER_NAME_HERE"
-    influx_db_url: "INSERT_INFLUX_DB_URI_HERE"
-    influx_db_login: "INSERT_INFLUX_DB_LOGIN_HERE"
-    influx_db_pwd : "INSERT_INFLUX_DB_PWD_HERE"
-    influx_db_host_name_to_report: "INSERT_INFLUX_DB_HOSTNAME_TO_REPORT_HERE"
-    video_record_home_dir: "INSERT_DIRECTORY_WHERE_VIDEOS_FULL_PATH_WILL_BE_HERE" //for example /home/user_name/cam
+  vars:
+    path_to_config: PATH_TO_CONFIGURATION_FILE
 
-  
   tasks:
+  - name: include vars
+    include_vars: {{path_to_config}}/surv_config.yml
 # installing required packages
   - name: ensure openssh-server is installed
     apt: name=openssh-server state=latest
@@ -58,7 +54,7 @@
     file: path={{video_record_home_dir}}/video state=directory owner={{video_user}} group={{video_user}} mode=0755
   
   - name: Creating video record script
-    template: src=record.sh dest={{video_record_home_dir}} mode="u+x" owner={{video_user}} group={{video_user}}
+    template: src=record.j2 dest={{video_record_home_dir}}/record.sh mode="u+x" owner={{video_user}} group={{video_user}}
 
   - name: ffserver job auto-restarter
     template: src=check_ffserver_running.sh dest={{video_record_home_dir}} mode="u+x" owner={{video_user}} group={{video_user}}

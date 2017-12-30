@@ -1,0 +1,10 @@
+---
+video_user: "INSERT_UNIX_USER_NAME_HERE"
+influx_db_url: "INSERT_INFLUX_DB_URI_HERE"
+influx_db_login: "INSERT_INFLUX_DB_LOGIN_HERE"
+influx_db_pwd : "INSERT_INFLUX_DB_PWD_HERE"
+influx_db_host_name_to_report: "INSERT_INFLUX_DB_HOSTNAME_TO_REPORT_HERE"
+video_record_home_dir: "INSERT_DIRECTORY_WHERE_VIDEOS_FULL_PATH_WILL_BE_HERE"
+cameras:
+    - {ip: 192.168.1.101 , name: "cam1"}
+    - {ip: 192.168.1.102 , name: "cam2"}
