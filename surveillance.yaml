@@ -4,9 +4,6 @@
   connection: local
   become: yes
 
-  vars:
-    path_to_config: PATH_TO_CONFIGURATION_FILE
-
   tasks:
   - name: include vars
     include_vars: {{path_to_config}}/surv_config.yml
