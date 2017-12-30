@@ -1,0 +1,74 @@
+# Port on which the server is listening. You must select a different
+# port from your standard HTTP web server if it is running on the same
+# computer.
+HTTPPort 8090
+
+# Address on which the server is bound. Only useful if you have
+# several network interfaces.
+HTTPBindAddress 0.0.0.0
+
+# Number of simultaneous HTTP connections that can be handled. It has
+# to be defined *before* the MaxClients parameter, since it defines the
+# MaxClients maximum limit.
+MaxHTTPConnections 2000
+
+# Number of simultaneous requests that can be handled. Since FFServer
+# is very fast, it is more likely that you will want to leave this high
+# and use MaxBandwidth, below.
+MaxClients 1000
+
+# This the maximum amount of kbit/sec that you are prepared to
+# consume when streaming to clients.
+MaxBandwidth 1000
+
+# Access log file (uses standard Apache log file format)
+# '-' is the standard output.
+CustomLog -
+
+##################################################################
+# Definition of the live feeds. Each live feed contains one video
+# and/or audio sequence coming from an ffmpeg encoder or another
+# ffserver. This sequence may be encoded simultaneously with several
+# codecs at several resolutions.
+
+{% for camera in cameras_to_mjpeg %}
+<Feed {{camera.name}}.ffm>
+File /tmp/{{camera.name}}.ffm
+FileMaxSize 200M
+Launch ffmpeg -i rtsp://{{camera.ip}}:554/unicast -vcodec libx264 
+  ACL allow 127.0.0.1
+</Feed>
+
+
+<Stream {{camera.name}}.mjpeg>
+Feed {{camera}}.ffm
+Format mpjpeg
+VideoFrameRate 1
+VideoBitRate 256
+#VideoBufferSize 4096
+VideoSize 640x360
+VideoQMin 3
+VideoQMax 31
+Strict -1
+</Stream>
+{% endfor %}
+
+
+# Server status
+
+<Stream stat.html>
+Format status
+
+# Only allow local people to get the status
+ACL allow localhost
+ACL allow 192.168.0.0 192.168.255.255
+
+#FaviconURL http://pond1.gladstonefamily.net:8080/favicon.ico
+</Stream>
+
+
+# Redirect index.html to the appropriate site
+
+<Redirect index.html>
+URL http://www.ffmpeg.org/
+</Redirect>

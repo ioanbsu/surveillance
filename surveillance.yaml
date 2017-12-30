@@ -60,7 +60,7 @@
     template: src=reboot_cams.j2 dest={{video_record_home_dir}}/reboot_cams.sh mode="u+x" owner={{video_user}} group={{video_user}}
 
   - name: Ensuring ffserver config is correct
-    template: src=ffserver.conf dest=/etc mode="u+r" owner=root group=root
+    template: src=ffserver.j2 dest=/etc/ffserver.conf mode="u+r" owner=root group=root
 
   - name: Adding record job to crontab
     cron: name="record videos" minute="*/15" user={{video_user}} job="{{video_record_home_dir}}/record.sh"

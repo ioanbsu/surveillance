@@ -8,3 +8,5 @@ video_record_home_dir: "INSERT_DIRECTORY_WHERE_VIDEOS_FULL_PATH_WILL_BE_HERE"
 cameras:
     - {ip: 192.168.1.101 , name: "cam1"}
     - {ip: 192.168.1.102 , name: "cam2"}
+cameras_to_mjpeg:
+    - {ip}
