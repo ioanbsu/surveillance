@@ -21,12 +21,12 @@ RECpath=$BASEpath'/video'
 
 # Save the streams using ffmpeg at 30 fps, stopping the capture after 901 seconds (15 minutes + 1 second). Add more lines if you have more than 2 cameras
 {% for camera in cameras %}
-ffmpeg -i rtsp://{{ camera.ip }}:554/unicast -r 30 -b:v 1k -vcodec copy  -t 901 $RECpath/{{ camera.name }}$name.mp4 </dev/null >/dev/null 2>/tmp/{{ camera.name }}.log &
+ffmpeg -i rtsp://{{ camera.ip }}:554/unicast -r 30 -b:v 1k -vcodec copy  -t 901 $RECpath/{{ camera.name }}_$name.mp4 </dev/null >/dev/null 2>/tmp/{{ camera.name }}.log &
 sleep 1
 {% endfor %}
 
 
 #below hardware accelerated codecs settings if needed.
 {% for camera in cameras %}
-#ffmpeg -i rtsp://{{ camera.ip }}:554/unicast -r 30 -b:v 1k -c:v h264_omx -t 901  $RECpath/{{ camera.name }}$name.mp4 </dev/null >/dev/null 2>/tmp/{{ camera.name }}.log &
+#ffmpeg -i rtsp://{{ camera.ip }}:554/unicast -r 30 -b:v 1k -c:v h264_omx -t 901  $RECpath/{{ camera.name }}_$name.mp4 </dev/null >/dev/null 2>/tmp/{{ camera.name }}.log &
 {% endfor %}
