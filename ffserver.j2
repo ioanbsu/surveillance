@@ -32,16 +32,16 @@ CustomLog -
 # codecs at several resolutions.
 
 {% for camera in cameras_to_mjpeg %}
+
 <Feed {{camera.name}}.ffm>
 File /tmp/{{camera.name}}.ffm
 FileMaxSize 200M
-Launch ffmpeg -i rtsp://{{camera.ip}}:554/unicast -vcodec libx264 
+Launch ffmpeg -i rtsp://{{camera.ip}}:554/unicast -vcodec libx264
   ACL allow 127.0.0.1
 </Feed>
 
-
 <Stream {{camera.name}}.mjpeg>
-Feed {{camera}}.ffm
+Feed {{camera.name}}.ffm
 Format mpjpeg
 VideoFrameRate 1
 VideoBitRate 256
