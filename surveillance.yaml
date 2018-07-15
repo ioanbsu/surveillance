@@ -39,7 +39,7 @@
     apt: deb="/tmp/telegraf.deb"
 
   - name: Configure Telegraf
-    template: src=telegraf.conf dest=/etc/telegraf/telegraf.conf
+    template: src=telegraf.j2 dest=/etc/telegraf/telegraf.conf
     notify:
       - restart telegraf 
   
