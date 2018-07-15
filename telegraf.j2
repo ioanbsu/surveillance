@@ -1198,7 +1198,7 @@
 #   ## via setcap cap_net_raw+p /bin/ping
 #   #
 #   ## urls to ping
-   urls = [{% for camera in cameras %}"{{ camera.ip }}",{% endfor %}192.168.1.122] # required
+   urls = [{% for camera in cameras %}"{{ camera.ip }}",{% endfor %}"192.168.1.122"] # required
 #   ## number of pings to send per collection (ping -c <COUNT>)
    count = 1 # required
 #   ## interval, in s, at which to ping. 0 == default (ping -i <PING_INTERVAL>)
