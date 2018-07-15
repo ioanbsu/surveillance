@@ -14,7 +14,7 @@
       name: ssh
       state: started
 
-  - name:
+  - name: Apache server is installed and started
     apt: name=apache2 state=latest
   - service:
       name: apache2
