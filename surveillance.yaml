@@ -32,7 +32,7 @@
  
   - name: Downloading telegraf
     get_url:
-      url="https://dl.influxdata.com/telegraf/releases/telegraf_1.3.4-1_armhf.deb"
+      url="https://dl.influxdata.com/telegraf/releases/telegraf-1.7.1_linux_armhf.tar.gz"
       dest="/tmp/telegraf.deb"
 
   - name: Installing telegraf
