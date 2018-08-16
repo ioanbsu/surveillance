@@ -1,0 +1,35 @@
+# init file for check cameras it is dedicated ansible configuration independent from main surveilance.yaml
+---
+- name: Configure check cameras rpi box
+  hosts: all
+  connection: local
+  become: yes
+
+  tasks:
+  - name: include vars
+    include_vars: surv_config.yml
+# installing required packages
+  - name: ensure openssh-server is installed
+    apt: name=openssh-server state=latest
+  - service:
+      name: ssh
+      state: started
+
+  - name: Downloading telegraf
+    get_url:
+      url="https://dl.influxdata.com/telegraf/releases/telegraf_1.3.4-1_armhf.deb"
+      dest="/tmp/telegraf.deb"
+
+  - name: Installing telegraf
+    apt: deb="/tmp/telegraf.deb"
+
+
+  - name: Configure Telegraf
+    template: src=telegraf_check_cameras.j2 dest=/etc/telegraf/telegraf.conf
+    notify:
+      - restart telegraf
+
+
+  handlers:
+    - name: restart telegraf
+      service: name=telegraf state=restarted
