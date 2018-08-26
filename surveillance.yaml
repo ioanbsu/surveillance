@@ -53,14 +53,11 @@
   - name: Creating video record script
     template: src=record.j2 dest={{video_record_home_dir}}/record.sh mode="u+x" owner={{video_user}} group={{video_user}}
 
-  - name: ffserver job auto-restarter
-    template: src=check_ffserver_running.sh dest={{video_record_home_dir}} mode="u+x" owner={{video_user}} group={{video_user}}
+#  - name: ffserver job auto-restarter
+#    template: src=check_ffserver_running.sh dest={{video_record_home_dir}} mode="u+x" owner={{video_user}} group={{video_user}}
 
-  - name: camera restarter
-    template: src=reboot_cams.j2 dest={{video_record_home_dir}}/reboot_cams.sh mode="u+x" owner={{video_user}} group={{video_user}}
-
-  - name: Ensuring ffserver config is correct
-    template: src=ffserver.j2 dest=/etc/ffserver.conf mode="u+r" owner=root group=root
+#  - name: Ensuring ffserver config is correct
+#    template: src=ffserver.j2 dest=/etc/ffserver.conf mode="u+r" owner=root group=root
 
   - name: Adding record job to crontab
     cron: name="record videos" minute="*/15" user={{video_user}} job="{{video_record_home_dir}}/record.sh"
@@ -77,8 +74,11 @@
   - name: Adding ffserver healthcheck job to crontab
     cron: name="ffserver health check" minute="*/2" user={{video_user}} job="{{video_record_home_dir}}/check_ffserver_running.sh"
 
-  - name: Adding reboot cams job to crontab
-    cron: name="reboot cams at night" hour="*/2" user={{video_user}} job="{{video_record_home_dir}}/reboot_cams.sh"
+#  - name: camera restarter
+#    template: src=reboot_cams.j2 dest={{video_record_home_dir}}/reboot_cams.sh mode="u+x" owner={{video_user}} group={{video_user}}
+
+#  - name: Adding reboot cams job to crontab
+#    cron: name="reboot cams at night" hour="*/2" user={{video_user}} job="{{video_record_home_dir}}/reboot_cams.sh"
 
 # configuring ports 22 and 80 be opened
   - name: Open port 80
