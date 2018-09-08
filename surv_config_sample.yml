@@ -5,6 +5,9 @@ influx_db_login: "INSERT_INFLUX_DB_LOGIN_HERE"
 influx_db_pwd : "INSERT_INFLUX_DB_PWD_HERE"
 influx_db_host_name_to_report: "INSERT_INFLUX_DB_HOSTNAME_TO_REPORT_HERE"
 video_record_home_dir: "INSERT_DIRECTORY_WHERE_VIDEOS_FULL_PATH_WILL_BE_HERE"
+mqtt_broker_address: "full mqtt broker address, exammple: mqtt://192.168.1.122:1883"
+mqtt_broker_login: "mqtt_broker"
+mqtt_broker_password: "mqtt_password"
 cameras:
     - {ip: 192.168.1.101 , name: "cam1", port: 554, credentials: "username:password@" }
     - {ip: 192.168.1.102 , name: "cam2", port: 554, credentials: "" }

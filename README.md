@@ -7,7 +7,8 @@ Steps to get started
 1. Install ansible: `sudo apt-get install ansible`
 2. Copy surv_config_sample.yml to surv_config.yml and make necessary config changes to this file
 3. Configure `surveillance.yaml` : the only thing is needed to specify path to directory where the surv_config is.
-4. Run ansible playbook `ansible-playbook -i "localhost," -c local --ask-become-pass ./surveillance.yaml`
+4. run commands from install_docker_containers.sh
+5. Run ansible playbook `ansible-playbook -i "localhost," -c local --ask-become-pass ./surveillance.yaml`
 
 
 In case there is a need to real-time convert rtsp->mjpeg, see preconfigured ffserver.conf as sample configuration on how to do it. It configured to convert 6 different streams. Update configuration to satisfy your needs. 
