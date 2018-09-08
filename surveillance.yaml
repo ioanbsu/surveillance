@@ -41,8 +41,13 @@
   - name: Configure Telegraf
     template: src=telegraf.j2 dest=/etc/telegraf/telegraf.conf
     notify:
-      - restart telegraf 
-  
+      - restart telegraf
+
+  - name: Installing mosquitto(MQTT broker)
+    apt:
+      name: mosquitto
+      state: latest
+
 # configuring files and folders
   - name: Creating video folder if necessary
     file: path={{video_record_home_dir}} state=directory owner={{video_user}} group={{video_user}} mode=0755
