@@ -58,6 +58,9 @@
   - name: Creating video record script
     template: src=record.j2 dest={{video_record_home_dir}}/record.sh mode="u+x" owner={{video_user}} group={{video_user}}
 
+  - name: Copying over mosquitto config
+    template: src=mosquitto.conf dest=/etc/mosquitto/mosquitto.conf mode="u+rw" owner=root group=root
+
 #  - name: ffserver job auto-restarter
 #    template: src=check_ffserver_running.sh dest={{video_record_home_dir}} mode="u+x" owner={{video_user}} group={{video_user}}
 
