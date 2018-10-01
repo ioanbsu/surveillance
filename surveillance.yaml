@@ -43,11 +43,6 @@
     notify:
       - restart telegraf
 
-  - name: Installing mosquitto(MQTT broker). You'll need to manually put mosquitto_pwd.txt file under /etc/mosquito/(google for mosquitto_passwd)
-    apt:
-      name: mosquitto
-      state: latest
-
 # configuring files and folders
   - name: Creating video folder if necessary
     file: path={{video_record_home_dir}} state=directory owner={{video_user}} group={{video_user}} mode=0755
@@ -58,13 +53,7 @@
   - name: Creating video record script
     template: src=record.j2 dest={{video_record_home_dir}}/record.sh mode="u+x" owner={{video_user}} group={{video_user}}
 
-  - name: Copying over mosquitto config
-    template: src=mosquitto.conf dest=/etc/mosquitto/mosquitto.conf mode="u+rw" owner=root group=root
-
-  - name: Copying over mqtt smartthings bridge configuration(important! you need to run install_docker_containers.sh first)
-    template: src=mqtt-bridge.j2 dest=/opt/mqtt-bridge/config.yml mode="u+rw" owner=root group=root
-
-  #  - name: ffserver job auto-restarter
+#  - name: ffserver job auto-restarter
 #    template: src=check_ffserver_running.sh dest={{video_record_home_dir}} mode="u+x" owner={{video_user}} group={{video_user}}
 
 #  - name: Ensuring ffserver config is correct
